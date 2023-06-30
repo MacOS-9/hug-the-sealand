@@ -130,9 +130,9 @@ void __fastcall TForm1::playButtonClick(TObject *Sender)
  sealand->Top = 320;
  stonkFish->Top = 320;
  beniu->Top = 320;
- sealand->Picture->LoadFromFile(".\\assets\\sealand.jpg");
- stonkFish->Picture->LoadFromFile(".\\assets\\stonkFish.jpg");
- beniu->Picture->LoadFromFile(".\\assets\\beniu.jpg");
+ sealand->Picture->LoadFromFile(".\\sealand.jpg");
+ stonkFish->Picture->LoadFromFile(".\\stonkFish.jpg");
+ beniu->Picture->LoadFromFile(".\\beniu.jpg");
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::gameTimerTimer(TObject *Sender)
@@ -326,9 +326,9 @@ void __fastcall TForm1::workButtonClick(TObject *Sender)
   stonkFish->Left = 224;
   beniu->Top = 330;
   beniu->Left = 112;
-  sealand->Picture->LoadFromFile(".\\assets\\sealand.jpg");
-  stonkFish->Picture->LoadFromFile(".\\assets\\stonkfish.jpg");
-  beniu->Picture->LoadFromFile(".\\assets\\beniu.jpg");
+  sealand->Picture->LoadFromFile(".\\sealand.jpg");
+  stonkFish->Picture->LoadFromFile(".\\stonkfish.jpg");
+  beniu->Picture->LoadFromFile(".\\beniu.jpg");
  } else {
   workButton->Caption = "Go back home";
   shopButton->Visible = false;
@@ -354,9 +354,9 @@ void __fastcall TForm1::workButtonClick(TObject *Sender)
   stonkFish->Top = 350;
   stonkFish->Left = 185;
   beniu->Top = 335;
-  sealand->Picture->LoadFromFile(".\\assets\\smallerSealand.jpg");
-  stonkFish->Picture->LoadFromFile(".\\assets\\smallerStonkfish.jpg");
-  beniu->Picture->LoadFromFile(".\\assets\\smallerBeniu.jpg");
+  sealand->Picture->LoadFromFile(".\\smallerSealand.jpg");
+  stonkFish->Picture->LoadFromFile(".\\smallerStonkfish.jpg");
+  beniu->Picture->LoadFromFile(".\\smallerBeniu.jpg");
  }
 }
 //---------------------------------------------------------------------------
