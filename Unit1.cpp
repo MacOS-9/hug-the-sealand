@@ -63,6 +63,12 @@ void __fastcall TForm1::playButtonClick(TObject *Sender)
  itemsBox->Clear();
  for (int i = 0; i < itemCount; i++)
   itemsBox->AddItem("Baguette", NULL);
+ workButton->Caption = "Work at the park";
+ workButton->Visible = true;
+ workButton->Left = 88;
+ shopButton->Caption = "Go to the shop";
+ shopButton->Visible = true;
+ shopButton->Left = 192;
  beniuCaught = false;
  stonkFishCaught = false;
  tryAgainButton->Visible = false;
