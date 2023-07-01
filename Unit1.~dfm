@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 339
-  Top = 138
+  Left = 304
+  Top = 193
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'hug the sealand v1.1'
