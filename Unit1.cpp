@@ -150,9 +150,9 @@ void __fastcall TForm1::gameTimerTimer(TObject *Sender)
  stonkFishHappinessBar->Width = stonkFishHappiness;
  sealandHappinessBar->Color = TColor(RGB(sealandRed[0], sealandGreen[0], sealandBlue));
  sealandHungerBar->Color = TColor(RGB(sealandRed[1], sealandGreen[1], sealandBlue));
- beniuHappinessBar->Color = TColor(RGB(sealandRed[0], sealandGreen[0], sealandBlue));
- beniuHungerBar->Color = TColor(RGB(beniuRed[1], beniuGreen[1], sealandBlue));
- stonkFishHappinessBar->Color = TColor(RGB(stonkFishRed, stonkFishGreen, sealandBlue));
+ beniuHappinessBar->Color = TColor(RGB(beniuRed[0], beniuGreen[0], beniuBlue));
+ beniuHungerBar->Color = TColor(RGB(beniuRed[1], beniuGreen[1], beniuBlue));
+ stonkFishHappinessBar->Color = TColor(RGB(stonkFishRed, stonkFishGreen, stonkFishBlue));
  statsLabel->Caption = "Money: " + IntToStr(money) + "z³\nItems: " + IntToStr(itemCount);
  if (sealandHappiness > 112)
   sealandHappiness = 112;
