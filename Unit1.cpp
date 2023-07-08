@@ -13,6 +13,7 @@
 #define stonkFishHappinessDecrease 0.125
 TForm1 *Form1;
 int itemCount, money;
+bool paused, escaped; // optimization goes brrr
 float sealandHunger = 112, sealandHappiness = 112, sealandHappinessDecrease = 0.125;
 float beniuHunger = 112, beniuHappiness = 112, beniuHappinessDecrease = 0.125;
 float stonkFishHappiness = 112;
@@ -51,7 +52,7 @@ void __fastcall TForm1::exitButtonClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::playButtonClick(TObject *Sender)
 {
- exitButton->Left = 8;
+ exitButton->Left = 440;
  exitButton->Top = 8;
  sealandHappiness = 112;
  sealandHunger = 112;
@@ -65,10 +66,10 @@ void __fastcall TForm1::playButtonClick(TObject *Sender)
   itemsBox->AddItem("Baguette", NULL);
  workButton->Caption = "Work at the park";
  workButton->Visible = true;
- workButton->Left = 88;
+ workButton->Left = 8;
  shopButton->Caption = "Go to the shop";
  shopButton->Visible = true;
- shopButton->Left = 192; 
+ shopButton->Left = 112;
  beniuCaught = false;
  stonkFishCaught = false;
  tryAgainButton->Visible = false;
@@ -108,13 +109,13 @@ void __fastcall TForm1::playButtonClick(TObject *Sender)
  frenchFlagBought = false;
  polishFlagBought = false;
  buyWineHQButton->Enabled = true;
- WineHQPrice->Caption = "40z³";
+ WineHQPrice->Caption = "40zl";
  buyPolishFlagButton->Enabled = true;
- polishFlagPrice->Caption = "30z³";
+ polishFlagPrice->Caption = "30zl";
  buyFrenchFlagButton->Enabled = true;
- frenchFlagPrice->Caption = "30z³";
+ frenchFlagPrice->Caption = "30zl";
  buySMG4PlushieButton->Enabled = true;
- SMG4PlushiePrice->Caption = "165z³";
+ SMG4PlushiePrice->Caption = "165zl";
  SMG4Visible = false;
  frenchFlag->Visible = false;
  polishFlag->Visible = false;
@@ -143,6 +144,12 @@ void __fastcall TForm1::playButtonClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::gameTimerTimer(TObject *Sender)
 {
+ if (GetFocus() == NULL)       /* gonna add pausing later */
+  paused = true;
+ else if (!escaped)
+  paused = false;
+ if (escaped)
+  paused = true;
  sealandHappinessBar->Width = sealandHappiness;
  sealandHungerBar->Width = sealandHunger;
  beniuHappinessBar->Width = beniuHappiness;
@@ -153,7 +160,7 @@ void __fastcall TForm1::gameTimerTimer(TObject *Sender)
  beniuHappinessBar->Color = TColor(RGB(beniuRed[0], beniuGreen[0], beniuBlue));
  beniuHungerBar->Color = TColor(RGB(beniuRed[1], beniuGreen[1], beniuBlue));
  stonkFishHappinessBar->Color = TColor(RGB(stonkFishRed, stonkFishGreen, stonkFishBlue));
- statsLabel->Caption = "Money: " + IntToStr(money) + "z³\nItems: " + IntToStr(itemCount);
+ statsLabel->Caption = "Money: " + IntToStr(money) + "zl\nItems: " + IntToStr(itemCount);
  if (sealandHappiness > 112)
   sealandHappiness = 112;
  if (sealandHappiness < 1 || sealandHunger < 1 || beniuHappiness < 1 ||
@@ -370,7 +377,7 @@ void __fastcall TForm1::shopButtonClick(TObject *Sender)
 {
  if (shopButton->Caption == "Go back home") {
   shopButton->Caption = "Go to the shop";
-  shopButton->Left = 192;
+  shopButton->Left = 112;
   workButton->Visible = true;
   buyBaguetteButton->Visible = false;
   buyFrenchFlagButton->Visible = false;
@@ -394,7 +401,7 @@ void __fastcall TForm1::shopButtonClick(TObject *Sender)
   SMG4Plushie->Visible = SMG4Visible;
  } else {
   shopButton->Caption = "Go back home";
-  shopButton->Left = 88;
+  shopButton->Left = 8;
   workButton->Visible = false;
   tryAgainButton->Visible = false;
   titleScreenName->Visible = false;
@@ -428,7 +435,7 @@ void __fastcall TForm1::buyWineHQButtonClick(TObject *Sender)
  int neededMoney = 40; // temporary variable
  if (money < neededMoney)
   ShowMessage("You do not have enough money to buy this item.\nYou need " +
-               IntToStr(neededMoney - money) + "z³ more.");
+               IntToStr(neededMoney - money) + "zl more.");
  if (money >= neededMoney) {
   buyWineHQButton->Enabled = false;
   WineHQPrice->Caption = "Sold out";
@@ -442,7 +449,7 @@ void __fastcall TForm1::buyItalianPizzaButtonClick(TObject *Sender)
  int neededMoney = 52; // temporary variable
  if (money < neededMoney)
   ShowMessage("You do not have enough money to buy this item.\nYou need " +
-               IntToStr(neededMoney - money) + "z³ more.");
+               IntToStr(neededMoney - money) + "zl more.");
  if (money >= neededMoney) {
   if (itemCount == 100)
    ShowMessage("Item inventory is full.");
@@ -459,7 +466,7 @@ void __fastcall TForm1::buyFrenchFlagButtonClick(TObject *Sender)
  int neededMoney = 30; // temporary variable
  if (money < neededMoney)
   ShowMessage("You do not have enough money to buy this item.\nYou need " +
-               IntToStr(neededMoney - money) + "z³ more.");
+               IntToStr(neededMoney - money) + "zl more.");
  if (money >= neededMoney) {
   frenchFlagBought = true;
   buyFrenchFlagButton->Enabled = false;
@@ -476,7 +483,7 @@ void __fastcall TForm1::buySMG4PlushieButtonClick(TObject *Sender)
  int neededMoney = 165; // temporary variable
  if (money < neededMoney)
   ShowMessage("You do not have enough money to buy this item.\nYou need " +
-               IntToStr(neededMoney - money) + "z³ more.");
+               IntToStr(neededMoney - money) + "zl more.");
  if (money >= neededMoney) {
   buySMG4PlushieButton->Enabled = false;
   SMG4PlushiePrice->Caption = "Sold out";
@@ -491,7 +498,7 @@ void __fastcall TForm1::buyPierogiButtonClick(TObject *Sender)
  int neededMoney = 15; // temporary variable
  if (money < neededMoney)
   ShowMessage("You do not have enough money to buy this item.\nYou need " +
-               IntToStr(neededMoney - money) + "z³ more.");
+               IntToStr(neededMoney - money) + "zl more.");
  if (money >= neededMoney) {
   if (itemCount == 100)
    ShowMessage("Item inventory is full.");
@@ -508,7 +515,7 @@ void __fastcall TForm1::buyBaguetteButtonClick(TObject *Sender)
  int neededMoney = 5; // temporary variable
  if (money < neededMoney)
   ShowMessage("You do not have enough money to buy this item.\nYou need " +
-               IntToStr(neededMoney - money) + "z³ more.");
+               IntToStr(neededMoney - money) + "zl more.");
  if (money >= neededMoney) {
   if (itemCount == 100)
    ShowMessage("Item inventory is full.");
@@ -525,7 +532,7 @@ void __fastcall TForm1::buyPolishFlagButtonClick(TObject *Sender)
  int neededMoney = 30; // temporary variable
  if (money < neededMoney)
   ShowMessage("You do not have enough money to buy this item.\nYou need " +
-               IntToStr(neededMoney - money) + "z³ more.");
+               IntToStr(neededMoney - money) + "zl more.");
  if (money >= neededMoney) {
   polishFlagBought = true;
   buyPolishFlagButton->Enabled = false;
@@ -541,7 +548,7 @@ void __fastcall TForm1::buyFrenchFriesButtonClick(TObject *Sender)
  int neededMoney = 30; // temporary variable
  if (money < neededMoney)
   ShowMessage("You do not have enough money to buy this item.\nYou need " +
-               IntToStr(neededMoney - money) + "z³ more.");
+               IntToStr(neededMoney - money) + "zl more.");
  if (money >= neededMoney) {
   if (itemCount == 100)
    ShowMessage("Item inventory is full.");
@@ -555,135 +562,105 @@ void __fastcall TForm1::buyFrenchFriesButtonClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::useItemClick(TObject *Sender)
 {
- for (int i = 0; i < itemsBox->Count; i++) {
-  if (itemsBox->Selected[i]) {
-   if (itemsBox->Items->Strings[i] == "Dumplings") {
-    if (useOnSealand->Checked == true)
-     if (sealandHunger + 20 > 112)
-      sealandHunger = 112;
-     else
-      sealandHunger += 20;
-    if (useOnBeniu->Checked == true)
-     if (beniuHunger + 42 > 112)
-      beniuHunger = 112;
-     else
-      beniuHunger += 20;
-    if (rand()%100 < 5 && !beniuCaught) {
-     ShowMessage("Beniu1305 has smelled the dumplings and came to your house!");
-     beniuCaught = true;
-     beniu->Visible = true;
-     beniuHappinessBarLabel->Visible = true;
-     beniuHungerBarLabel->Visible = true;
-     beniuHappinessBar->Visible = true;
-     beniuHungerBar->Visible = true;
-     useOnBeniu->Visible = true;
-    }
-    if (useOnBeniu->Checked == true || useOnSealand->Checked == true) {
-     itemsBox->Items->Delete(i);
-     itemCount--;
-    }
-    break;
-   }
-   if (itemsBox->Items->Strings[i] == "Baguette") {
-    if (useOnSealand->Checked == true)
-     if (sealandHunger + 12.5 > 112)
-      sealandHunger = 112;
-     else
-      sealandHunger += 12.5;
-    if (useOnBeniu->Checked == true)
-     if (beniuHunger + 83 > 112)
-      beniuHunger = 112;
-     else
-      beniuHunger += 83;
-    if (useOnBeniu->Checked == true || useOnSealand->Checked == true) {
-     itemsBox->Items->Delete(i);
-     itemCount--;
-    }
-    break;
-   }
-   if (itemsBox->Items->Strings[i] == "Italian pizza") {
-    if (useOnSealand->Checked == true)
-     if (sealandHunger + 56 > 112)
-      sealandHunger = 112;
-     else
-      sealandHunger += 56;
+ if (useOnSealand->Checked == false && useOnBeniu->Checked == false && useOnStonkFish->Checked == false) {
+  for (int i = 0; i < itemsBox->Count; i++) {
+   if (itemsBox->Selected[i]) {
+    if (itemsBox->Items->Strings[i] == "Dumplings") {
+     if (useOnSealand->Checked == true)
+      if (sealandHunger + 20 > 112)
+       sealandHunger = 112;
+      else
+       sealandHunger += 20;
      if (useOnBeniu->Checked == true)
-      if (beniuHunger + 101 > 112)
+      if (beniuHunger + 42 > 112)
        beniuHunger = 112;
       else
-       beniuHunger += 101;
-     if (useOnStonkFish->Checked == true) {
-      sealandHunger = 112;
-      sealandHappiness = 112;
-      beniuHunger = 112;
-      beniuHappiness = 112;
-      stonkFishHappiness = 112;
+       beniuHunger += 20;
+     if (rand()%100 < 5 && !beniuCaught) {
+      ShowMessage("Beniu1305 has smelled the dumplings and came to your house!");
+      beniuCaught = true;
+      beniu->Visible = true;
+      beniuHappinessBarLabel->Visible = true;
+      beniuHungerBarLabel->Visible = true;
+      beniuHappinessBar->Visible = true;
+      beniuHungerBar->Visible = true;
+      useOnBeniu->Visible = true;
      }
-    if (rand()%100 < 25 && !stonkFishCaught) {
-     ShowMessage("StonkFish has smelled the pizza and came to your house!");
-     stonkFishCaught = true;
-     stonkFish->Visible = true;
-     stonkFishHappinessBarLabel->Visible = true;
-     stonkFishHungerBarLabel->Visible = true;
-     stonkFishHappinessBar->Visible = true;
-     stonkFishHungerBar->Visible = true;
-     useOnStonkFish->Visible = true;
+     if (useOnBeniu->Checked == true || useOnSealand->Checked == true) {
+      itemsBox->Items->Delete(i);
+      itemCount--;
+     }
+     break;
     }
-    itemsBox->Items->Delete(i);
-    itemCount--;
-    break;
-   }
-   if (itemsBox->Items->Strings[i] == "French fries") {
-    if (useOnSealand->Checked == true)
-     if (sealandHunger + 25 > 112)
-      sealandHunger = 112;
-     else
-      sealandHunger += 25;
-    if (useOnBeniu->Checked == true)
-     if (beniuHunger + 79 > 112)
-      beniuHunger = 112;
-     else
-      beniuHunger += 79;
-    if (useOnBeniu->Checked == true || useOnSealand->Checked == true) {
+    if (itemsBox->Items->Strings[i] == "Baguette") {
+     if (useOnSealand->Checked == true)
+      if (sealandHunger + 12.5 > 112)
+       sealandHunger = 112;
+      else
+       sealandHunger += 12.5;
+     if (useOnBeniu->Checked == true)
+      if (beniuHunger + 83 > 112)
+       beniuHunger = 112;
+      else
+       beniuHunger += 83;
+     if (useOnBeniu->Checked == true || useOnSealand->Checked == true) {
+      itemsBox->Items->Delete(i);
+      itemCount--;
+     }
+     break;
+    }
+    if (itemsBox->Items->Strings[i] == "Italian pizza") {
+     if (useOnSealand->Checked == true)
+      if (sealandHunger + 56 > 112)
+       sealandHunger = 112;
+      else
+       sealandHunger += 56;
+      if (useOnBeniu->Checked == true)
+       if (beniuHunger + 101 > 112)
+        beniuHunger = 112;
+       else
+        beniuHunger += 101;
+      if (useOnStonkFish->Checked == true) {
+       sealandHunger = 112;
+       sealandHappiness = 112;
+       beniuHunger = 112;
+       beniuHappiness = 112;
+       stonkFishHappiness = 112;
+      }
+     if (rand()%100 < 25 && !stonkFishCaught) {
+      ShowMessage("StonkFish has smelled the pizza and came to your house!");
+      stonkFishCaught = true;
+      stonkFish->Visible = true;
+      stonkFishHappinessBarLabel->Visible = true;
+      stonkFishHungerBarLabel->Visible = true;
+      stonkFishHappinessBar->Visible = true;
+      stonkFishHungerBar->Visible = true;
+      useOnStonkFish->Visible = true;
+     }
      itemsBox->Items->Delete(i);
      itemCount--;
+     break;
     }
-    break;
+    if (itemsBox->Items->Strings[i] == "French fries") {
+     if (useOnSealand->Checked == true)
+      if (sealandHunger + 25 > 112)
+       sealandHunger = 112;
+      else
+       sealandHunger += 25;
+     if (useOnBeniu->Checked == true)
+      if (beniuHunger + 79 > 112)
+       beniuHunger = 112;
+      else
+       beniuHunger += 79;
+     if (useOnBeniu->Checked == true || useOnSealand->Checked == true) {
+      itemsBox->Items->Delete(i);
+      itemCount--;
+     }
+     break;
+    }
    }
   }
  }
- /*
-  switch (itemsBox->Items->Strings[i]) {
-   case Dumplings:
-    if (useOnSealand->Checked)
-      sealandHunger += 20;
-    if (rand()%100 < 5 && !beniuCaught) {
-     ShowMessage("Beniu1305 has smelled the dumplings and came to your house!");
-     beniuCaught = true;
-     // gonna add code later
-    }
-    break;
-   case Baguette:
-    if (useOnSealand->Checked)
-     sealandHunger += 12.5;
-    break;
-   case ItalianPizza:
-    if (useOnSealand->Checked)
-     sealandHunger += 56;
-    if (rand()%100 < 25 && !stonkFishCaught) {
-     ShowMessage("StonkFish has smelled the pizza and came to your house!");
-     stonkFishCaught = true;
-     // gonna add code later
-    }
-    break;
-   case FrenchFries:
-    if (useOnSealand->Checked)
-     sealandHunger += 25;
-    break;
-   default:
-    ShowMessage("Something has gone wrong, please contact vista man.");
-  }
- }                                                                 */
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::howToPlayButtonClick(TObject *Sender)
@@ -755,6 +732,16 @@ void __fastcall TForm1::beniuClick(TObject *Sender)
   beniuHappiness = 112;
  if (workButton->Caption == "Go back home")
   money += 32;
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::FormKeyUp(TObject *Sender, WORD &Key,
+      TShiftState Shift)
+{
+ if (Key == 27)
+  if (escaped == true)
+   escaped = false;
+  else
+   escaped = true;
 }
 //---------------------------------------------------------------------------
 
