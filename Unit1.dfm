@@ -1,9 +1,9 @@
 object Form1: TForm1
-  Left = 304
-  Top = 193
+  Left = 318
+  Top = 177
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
-  Caption = 'hug the sealand v1.1'
+  Caption = 'hug the sealand v1.1.4'
   ClientHeight = 442
   ClientWidth = 624
   Color = cl3DDkShadow
@@ -15,6 +15,7 @@ object Form1: TForm1
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  OnKeyUp = FormKeyUp
   PixelsPerInch = 96
   TextHeight = 13
   object titleScreenName: TLabel
@@ -367,65 +368,65 @@ object Form1: TForm1
   object WineHQPrice: TLabel
     Left = 144
     Top = 54
-    Width = 21
+    Width = 19
     Height = 13
-    Caption = '40z'#322
+    Caption = '40zl'
     Visible = False
   end
   object italianPizzaPrice: TLabel
     Left = 320
     Top = 118
-    Width = 21
+    Width = 19
     Height = 13
-    Caption = '52z'#322
+    Caption = '52zl'
     Visible = False
   end
   object frenchFlagPrice: TLabel
     Left = 144
     Top = 118
-    Width = 21
+    Width = 19
     Height = 13
-    Caption = '30z'#322
+    Caption = '30zl'
     Visible = False
   end
   object SMG4PlushiePrice: TLabel
     Left = 144
     Top = 150
-    Width = 27
+    Width = 25
     Height = 13
-    Caption = '165z'#322
+    Caption = '165zl'
     Visible = False
   end
   object pierogiPrice: TLabel
     Left = 320
     Top = 54
-    Width = 21
+    Width = 19
     Height = 13
-    Caption = '15z'#322
+    Caption = '15zl'
     Visible = False
   end
   object baguettePrice: TLabel
     Left = 320
     Top = 86
-    Width = 15
+    Width = 13
     Height = 13
-    Caption = '5z'#322
+    Caption = '5zl'
     Visible = False
   end
   object polishFlagPrice: TLabel
     Left = 144
     Top = 86
-    Width = 21
+    Width = 19
     Height = 13
-    Caption = '30z'#322
+    Caption = '30zl'
     Visible = False
   end
   object frenchFriesPrice: TLabel
     Left = 320
     Top = 150
-    Width = 21
+    Width = 19
     Height = 13
-    Caption = '20z'#322
+    Caption = '20zl'
     Visible = False
   end
   object itemsLabel: TLabel
@@ -1615,7 +1616,7 @@ object Form1: TForm1
     Visible = False
   end
   object workButton: TButton
-    Left = 88
+    Left = 8
     Top = 8
     Width = 97
     Height = 25
@@ -1732,7 +1733,7 @@ object Form1: TForm1
     OnClick = exitButtonClick
   end
   object shopButton: TButton
-    Left = 192
+    Left = 112
     Top = 8
     Width = 97
     Height = 25

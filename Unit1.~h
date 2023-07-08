@@ -105,6 +105,8 @@ __published:	// IDE-managed Components
           TShiftState Shift);
         void __fastcall stonkFishClick(TObject *Sender);
         void __fastcall beniuClick(TObject *Sender);
+        void __fastcall FormKeyUp(TObject *Sender, WORD &Key,
+          TShiftState Shift);
 private:	// User declarations
 public:		// User declarations
         __fastcall TForm1(TComponent* Owner);
